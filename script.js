@@ -14,7 +14,15 @@ var questions = [{
     question: "4. In what city is the NBA Bubble taking place?",
     choices: ["Florida", "Boston", "Dallas", "Orlando"],
     correctAnswer: 4
-}. {
+}, {
+    question: "5. Which of these players is nicknamed Linsanity?",
+    choices: ["Dwight Howard", "Carmelo Anthony", "Jeremy Lin", "Jordan Clarkson"],
+    correctAnswer: 3
+}, {
+    question: "5. Which of these players is nicknamed Linsanity?",
+    choices: ["Dwight Howard", "Carmelo Anthony", "Jeremy Lin", "Jordan Clarkson"],
+    correctAnswer: 3
+}, {
     question: "5. Which of these players is nicknamed Linsanity?",
     choices: ["Dwight Howard", "Carmelo Anthony", "Jeremy Lin", "Jordan Clarkson"],
     correctAnswer: 3
