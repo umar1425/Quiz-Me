@@ -2,3 +2,13 @@ body {
     background: turquoise;
 }
 
+h1 {
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    color: red;
+    padding: 5em;
+    background-color: black;
+    font-size: 40px;
+    margin: auto;
+}
+

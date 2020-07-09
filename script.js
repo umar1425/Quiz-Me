@@ -1,29 +1,21 @@
 var questions = [{
-    question: "1. How many NBA Championships did Kobe Bryant win?",
-    choices: ["Zero", "Four", "Five", "Nine"],
+    question: "1. What would following code return? console.log(typeof typeof 1);",
+    choices: ["string", "number", "Syntax error", "undefined"],
+    correctAnswer: 0
+},{
+    question: "2. What would be the result of 3+2+'7'?",
+    choices: ["327", "12", "14", "57"],
     correctAnswer: 3
-}, {
-    question: "2. Who is the commissioner of NBA?",
-    choices: ["Benjamin", "Adam Silver", "Fab Five", "Quavo"],
+},{
+    question: "3. How to empty an array in JavaScript?",
+    choices: ["arrayList[]", "arrayList(0)", "arrayList.length=0", "arrayList.len(0)"],
     correctAnswer: 2
-}, {
-    question: "3. What team does LeBron James play for?",
-    choices: ["NY Knicks", "NJ Nets", "LA Lakers", "KC Chiefs"],
+},{
+    question: "4. How do you write 'Hello World' in an alert box?",
+    choices: ["msg('Hello World')", "msgBox('Hello World');", "alertBox('Hello World');", "alert('Hello World');"],
     correctAnswer: 3
-}, {
-    question: "4. In what city is the NBA Bubble taking place?",
-    choices: ["Florida", "Boston", "Dallas", "Orlando"],
-    correctAnswer: 4
-}, {
-    question: "5. Which of these players is nicknamed Linsanity?",
-    choices: ["Dwight Howard", "Carmelo Anthony", "Jeremy Lin", "Jordan Clarkson"],
+},{
+    question: "5. What is the HTML tag under which one can write the JavaScript code?",
+    choices: ["<javascript>", "<scripted>", "<script>", "<js>"],
     correctAnswer: 3
-}, {
-    question: "5. Which of these players is nicknamed Linsanity?",
-    choices: ["Dwight Howard", "Carmelo Anthony", "Jeremy Lin", "Jordan Clarkson"],
-    correctAnswer: 3
-}, {
-    question: "5. Which of these players is nicknamed Linsanity?",
-    choices: ["Dwight Howard", "Carmelo Anthony", "Jeremy Lin", "Jordan Clarkson"],
-    correctAnswer: 3
-}
+}];
