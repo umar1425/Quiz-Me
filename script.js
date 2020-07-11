@@ -1,238 +1,238 @@
 var questions = [
-    { question: "1. What would following code return? console.log(typeof typeof 1);",
-      choices: ["string", "number", "Syntax error", "undefined"],
-      correctAnswer: "0",
+    {
+      q: "What would following code return? console.log(typeof typeof 1);",
+      a: ["string", "number", "syntax error", "undefined"],
+      correct: "string",
     },
-    { question: "2. What would be the result of 3+2+'7'?",
-      choices: ["327", "12", "14", "57"],
-      correctAnswer: "2",
+    {
+      q: "What would be the result of 3+2+'7'?",
+      a: ["327", "12", "14", "57"],
+      correct: "14",
     },
-    { question: "3. How to empty an array in JavaScript?",
-      choices: ["arrayList[]", "arrayList(0)", "arrayList.length=0", "arrayList.len(0)"],
-      correctAnswer: "1",
+    {
+      q: "How to empty an array in JavaScript?",
+      a: ["arrayList[]", "arrayList(0)", "arrayList.length=0", "arrayList.len(0)"],
+      correct: "arrayList(0)",
     },
-    { question: "4. How do you write 'Hello World' in an alert box?",
-      choices: ["msg('Hello World')", "msgBox('Hello World');", "alertBox('Hello World');", "alert('Hello World');"],
-      correctAnswer: "2",
+    {
+      q:
+        "How do you write 'Hello World' in an alert box?",
+      a: ["msg('Hello World')", "msgBox('Hello World');", "alertBox('Hello World');", "alert('Hello World');"],
+      correct: "alertBox('Hello World')",
     },
-    { question: "5. What is the HTML tag under which one can write the JavaScript code?",
-      choices: ["<javascript>", "<scripted>", "<script>", "<js>"],
-      correctAnswer: "2",
-    }
+    {
+      q:
+        "What is the HTML tag under which one can write the JavaScript code?",
+      a: ["<javascript>", "<scripted>", "<script>", "<js>"],
+      correct: "<script>",
+    },
   ];
+  //Declare
+  var question; 
+  var choice1; 
+  var choice2; 
+  var choice3; 
+  var choice4; 
+  var userAnswer; //get a user's choice
+  var correctAnswer; //the corect answer
+  var questionCount; //question number 
   
-  var currentQuestion = 0;
-var viewingAns = 0;
-var correctAnswers = 0;
-var quizOver = false;
-var iSelectedAnswer = [];
-var c = 180;
-var t;
-$(document).ready(function () {
-    // Display the first question
-    displayCurrentQuestion();
-    $(this).find(".quizMessage").hide();
-    $(this).find(".preButton").attr('disabled', 'disabled');
-    timedCount();
-    $(this).find(".preButton").on("click", function () {
-        if (!quizOver) {
-            if (currentQuestion == 0) {
-                return false;
-            }
-            if (currentQuestion == 1) {
-                $(".preButton").attr('disabled', 'disabled');
-            }
-            currentQuestion--; // Since we have already displayed the first question on DOM ready
-            if (currentQuestion < questions.length) {
-                displayCurrentQuestion();
-            }
-        } else {
-            if (viewingAns == 3) {
-                return false;
-            }
-            currentQuestion = 0;
-            viewingAns = 3;
-            viewResults();
-        }
-    });
-    // On clicking next, display the next question
-    $(this).find(".nextButton").on("click", function () {
-        if (!quizOver) {
-            var val = $("input[type='radio']:checked").val();
-            if (val == undefined) {
-                $(document).find(".quizMessage").text("Please select an answer");
-                $(document).find(".quizMessage").show();
-            } else {
-                // TODO: Remove any message -> not sure if this is efficient to call this each time....
-                $(document).find(".quizMessage").hide();
-                if (val == questions[currentQuestion].correctAnswer) {
-                    correctAnswers++;
-                }
-                iSelectedAnswer[currentQuestion] = val;
-                currentQuestion++; // Since we have already displayed the first question on DOM ready
-                if (currentQuestion >= 1) {
-                    $('.preButton').prop("disabled", false);
-                }
-                if (currentQuestion < questions.length) {
-                    displayCurrentQuestion();
-                } else {
-                    displayScore();
-                    $('#iTimeShow').html('Quiz Time Completed!');
-                    $('#timer').html("You scored: " + correctAnswers + " out of: " + questions.length);
-                    c = 185;
-                    $(document).find(".preButton").text("View Answer");
-                    $(document).find(".nextButton").text("Play Again?");
-                    quizOver = true;
-                    return false;
-                }
-            }
-        } else { // quiz is over and clicked the next button (which now displays 'Play Again?'
-            quizOver = false;
-            $('#iTimeShow').html('Time Remaining:');
-            iSelectedAnswer = [];
-            $(document).find(".nextButton").text("Next Question");
-            $(document).find(".preButton").text("Previous Question");
-            $(".preButton").attr('disabled', 'disabled');
-            resetQuiz();
-            viewingAns = 1;
-            displayCurrentQuestion();
-            hideScore();
-        }
-    });
-});
-function timedCount() {
-    if (c == 185) {
-        return false;
-    }
-    var hours = parseInt(c / 3600) % 24;
-    var minutes = parseInt(c / 60) % 60;
-    var seconds = c % 60;
-    var result = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
-    $('#timer').html(result);
-    if (c == 0) {
-        displayScore();
-        $('#iTimeShow').html('Quiz Time Completed!');
-        $('#timer').html("You scored: " + correctAnswers + " out of: " + questions.length);
-        c = 185;
-        $(document).find(".preButton").text("View Answer");
-        $(document).find(".nextButton").text("Play Again?");
-        quizOver = true;
-        return false;
-    }
-    /*if(c == 0 )
-        {  
-            if (!quizOver)
-            {
-                var val = $("input[type='radio']:checked").val();
-                if (val == questions[currentQuestion].correctAnswer)
-                {
-                    correctAnswers++;
-                }
-                currentQuestion++; // Since we have already displayed the first question on DOM ready
-               
-                if (currentQuestion < questions.length)
-                {
-                    displayCurrentQuestion();
-                    c=15;
-                }
-                else
-                {
-                    displayScore();
-                    $('#timer').html('');
-                    c=16;
-                    $(document).find(".nextButton").text("Play Again?");
-                    quizOver = true;
-                    return false;
-                }
-            }
-            else
-            { // quiz is over and clicked the next button (which now displays 'Play Again?'
-                quizOver = false;
-                $(document).find(".nextButton").text("Next Question");
-                resetQuiz();
-                displayCurrentQuestion();
-                hideScore();
-            }      
-        }   */
-    c = c - 1;
-    t = setTimeout(function () {
-        timedCount()
+  //DOM / Buttons
+  var titleCallEl = document.querySelector("#titleCall");
+  var readEl = document.querySelector("#read");
+  var choice1El = document.querySelector("#choice0");
+  var choice2El = document.querySelector("#choice1");
+  var choice3El = document.querySelector("#choice2");
+  var choice4El = document.querySelector("#choice3");
+  var img = document.querySelector("img");
+  var form = document.querySelector("#form");
+  var nameInput = document.querySelector("#nameInput");
+  var finalScore = document.querySelector("#finalScore");
+  var oneMore = document.querySelector("#oneMore");
+  var congrats = document.querySelector("#congrats");
+  var answerButtons = document.querySelector("#answerButtons");
+  var highestScore = document.querySelector("#highestScore");
+  var count = localStorage.getItem("count");
+  
+  var timeRemain = document.querySelector("#timeRemain");
+  var timeLeft = 100; // Create the countdown timer.
+  var i = 0; //question counter
+  var timerInterval;
+  
+  //Initiarize.
+  choice1El.style.display = "none";
+  choice2El.style.display = "none";
+  choice3El.style.display = "none";
+  choice4El.style.display = "none";
+  form.style.display = "none";
+  congrats.style.display = "none";
+  
+  //start button clicked!
+  //user input====================================
+  var startButton = document.querySelector("#start");
+  startButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    quizStart();
+  });
+  
+  //function storage===================================================
+  // THEN a timer starts and I am presented with a question
+  function quizStart() {
+    i = 0;
+    timeLeft = 60;
+  
+    quiz();
+  
+    timerInterval = setInterval(function () {
+      timeLeft--;
+      timeRemain.textContent = "Time: " + timeLeft;
+  
+      if (timeLeft <= 0) {
+        console.log("This is timeout");
+        clearInterval(timerInterval);
+        timeleft = "Timeout";
+        afterFinish();
+      }
     }, 1000);
-}
-// This displays the current question AND the choices
-function displayCurrentQuestion() {
-    if (c == 185) {
-        c = 180;
-        timedCount();
-    }
-    //console.log("In display current Question");
-    var question = questions[currentQuestion].question;
-    var questionClass = $(document).find(".quizContainer > .question");
-    var choiceList = $(document).find(".quizContainer > .choiceList");
-    var numChoices = questions[currentQuestion].choices.length;
-    // Set the questionClass text to the current question
-    $(questionClass).text(question);
-    // Remove all current <li> elements (if any)
-    $(choiceList).find("li").remove();
-    var choice;
-    for (i = 0; i < numChoices; i++) {
-        choice = questions[currentQuestion].choices[i];
-        if (iSelectedAnswer[currentQuestion] == i) {
-            $('<li><input type="radio" class="radio-inline" checked="checked"  value=' + i + ' name="dynradio" />' + ' ' + choice + '</li>').appendTo(choiceList);
+  }
+  
+  //inside of the Quiz!
+  function quiz() {
+    console.log("This is quiz");
+  
+    startButton.style.display = "none";
+    choice1El.style.display = "initial";
+    choice2El.style.display = "initial";
+    choice3El.style.display = "initial";
+    choice4El.style.display = "initial";
+    img.style.display = "none";
+    setQuestion();
+  
+    console.log("else in quiz");
+    answerButtons.addEventListener("click", function (event) {
+      event.preventDefault();
+      if (event.target.matches("button")) {
+        var id = event.target.id.replace("choice", ""); //#choice1
+        userAnswer = questions[i].a[parseInt(id)];
+        console.log({ userAnswer, correctAnswer });
+        if (userAnswer === correctAnswer) {
+          i++;
+          choice1El.style.display = "none";
+          choice2El.style.display = "none";
+          choice3El.style.display = "none";
+          choice4El.style.display = "none";
         } else {
-            $('<li><input type="radio" class="radio-inline" value=' + i + ' name="dynradio" />' + ' ' + choice + '</li>').appendTo(choiceList);
+          i++;
+          choice1El.style.display = "none";
+          choice2El.style.display = "none";
+          choice3El.style.display = "none";
+          choice4El.style.display = "none";
+          timeLeft = timeLeft - 10;
         }
+      }
+      if (questions[i] === undefined) {
+        afterFinish();
+      } else {
+        setTimeout(setQuestion, 1000);
+      }
+    });
+  }
+  
+  //function for quiz
+  
+  function setQuestion() {
+    choice1El.style.display = "initial";
+    choice2El.style.display = "initial";
+    choice3El.style.display = "initial";
+    choice4El.style.display = "initial";
+    img.style.display = "none";
+    console.log("This is setQuestion");
+    //Set questions and answer choices
+    question = questions[i].q; //#read
+    choice1 = questions[i].a[0];
+    choice2 = questions[i].a[1];
+    choice3 = questions[i].a[2];
+    choice4 = questions[i].a[3];
+    correctAnswer = questions[i].correct;
+  
+    //inner HTML
+    var num = i + 1;
+    titleCallEl.innerHTML = "Question #" + num;
+    readEl.innerHTML = question;
+    choice1El.innerHTML = choice1;
+    choice2El.innerHTML = choice2;
+    choice3El.innerHTML = choice3;
+    choice4El.innerHTML = choice4;
+  }
+  
+  // function checkAnswer() {
+  //   console.log("This is checkAnswer");
+  
+  //   quiz();ß
+  // }
+  
+  //Quiz Finished! =================================
+  
+  var scoreArray = [];
+  var formText = nameInput.value;
+  function afterFinish() {
+    clearInterval(timerInterval);
+    console.log("afterFinish");
+    choice1El.style.display = "none";
+    choice2El.style.display = "none";
+    choice3El.style.display = "none";
+    choice4El.style.display = "none";
+    scoreArray.push(timeLeft);
+  
+    titleCallEl.innerHTML = "Your score is " + timeLeft;
+    readEl.innerHTML = "";
+    form.style.display = "initial";
+  
+    // When form is submitted...
+  
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var formText = document.querySelector(".form-control").value;
+      // Return from function early if submitted todoText is blank
+      if (formText === "") {
+        return;
+      }
+      //Disply user's name, score & highest score(i could get from local storage?)
+      else {
+        congrats.style.display = "initial";
+        form.style.display = "none";
+        img.style.display = "none";
+  
+        localStorage.setItem("count", timeLeft);
+        // highestScore = Math.max.apply(null, scoreArray); // Get max number from array
+        userName.innerHTML = formText;
+        finalScore.innerHTML =
+          "You got " + timeLeft + ", your last score is " + count;
+        oneMore.addEventListener("click", function () {
+          // quizStart();
+          document.location.reload();
+        });
+      }
+    });
+  }
+  
+  //Score Board====================================
+  
+  var mode = "text";
+  highestScore.addEventListener("click", function (event) {
+    event.preventDefault();
+    showScore();
+  });
+  // var highestScore;
+  function showScore() {
+    // highestScore = Math.max.apply(null, scoreArray); // Get max number from array
+  
+    if (mode === "text") {
+      highestScore.textContent = "Your last score is: " + count;
+      mode = "score";
+    } else {
+      highestScore.textContent = "View last Score";
+      mode = "text";
     }
-}
-function resetQuiz() {
-    currentQuestion = 0;
-    correctAnswers = 0;
-    hideScore();
-}
-function displayScore() {
-    $(document).find(".quizContainer > .result").text("You scored: " + correctAnswers + " out of: " + questions.length);
-    $(document).find(".quizContainer > .result").show();
-}
-function hideScore() {
-    $(document).find(".result").hide();
-}
-// This displays the current question AND the choices
-function viewResults() {
-    if (currentQuestion == 10) {
-        currentQuestion = 0;
-        return false;
-    }
-    if (viewingAns == 1) {
-        return false;
-    }
-    hideScore();
-    var question = questions[currentQuestion].question;
-    var questionClass = $(document).find(".quizContainer > .question");
-    var choiceList = $(document).find(".quizContainer > .choiceList");
-    var numChoices = questions[currentQuestion].choices.length;
-    // Set the questionClass text to the current question
-    $(questionClass).text(question);
-    // Remove all current <li> elements (if any)
-    $(choiceList).find("li").remove();
-    var choice;
-    for (i = 0; i < numChoices; i++) {
-        choice = questions[currentQuestion].choices[i];
-        if (iSelectedAnswer[currentQuestion] == i) {
-            if (questions[currentQuestion].correctAnswer == i) {
-                $('<li style="border:2px solid green;margin-top:10px;"><input type="radio" class="radio-inline" checked="checked"  value=' + i + ' name="dynradio" />' + ' ' + choice + '</li>').appendTo(choiceList);
-            } else {
-                $('<li style="border:2px solid red;margin-top:10px;"><input type="radio" class="radio-inline" checked="checked"  value=' + i + ' name="dynradio" />' + ' ' + choice + '</li>').appendTo(choiceList);
-            }
-        } else {
-            if (questions[currentQuestion].correctAnswer == i) {
-                $('<li style="border:2px solid green;margin-top:10px;"><input type="radio" class="radio-inline" value=' + i + ' name="dynradio" />' + ' ' + choice + '</li>').appendTo(choiceList);
-            } else {
-                $('<li><input type="radio" class="radio-inline" value=' + i + ' name="dynradio" />' + ' ' + choice + '</li>').appendTo(choiceList);
-            }
-        }
-    }
-    currentQuestion++;
-    setTimeout(function () {
-        viewResults();
-    }, 3000);
-}
+  }
+  
